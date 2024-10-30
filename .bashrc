@@ -4,15 +4,14 @@ LOGFILE="$HOME/shell_logs/commands_log.json"
 # ディレクトリが存在しない場合は作成
 mkdir -p "$HOME/shell_logs"
 
-# コマンド実行ごとに時刻とコマンド、入出力を記録する
-PROMPT_COMMAND='
-{
+# ログを記録する関数を定義
+log_command() {
     if [ -z "$CMD_LOGGING" ]; then
         export CMD_LOGGING=1
         # 前回のコマンドを取得
         COMMAND=$(history 1 | sed "s/^ *[0-9]* *//")
-        # 特定のコマンドをスキップ
-        skip_list=("vim" "nano" "less")
+        # インタラクティブなコマンドをスキップ
+        skip_list=("vim" "nano" "less" "man")
         skip_command=false
         for skip in "${skip_list[@]}"; do
             if [[ "$COMMAND" == "$skip"* ]]; then
@@ -42,4 +41,7 @@ PROMPT_COMMAND='
         unset CMD_LOGGING
         return $EXIT_STATUS
     fi
-}'
+}
+
+# PROMPT_COMMAND に関数を設定
+PROMPT_COMMAND='log_command'
