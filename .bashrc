@@ -10,6 +10,13 @@ CLIENT_IP=$(hostname -I | awk '{print $1}')
 # ロギングを有効化
 LOGGING_ENABLED=1
 
+# 不要なaliasを削除
+if [ "$LOGGING_ENABLED" -eq 0 ]; then
+    unalias ll 2>/dev/null
+    unalias la 2>/dev/null
+    unalias l 2>/dev/null
+fi
+
 # ログを記録する関数を定義
 log_command() {
     # ロギングが無効の場合は何もしない
