@@ -4,6 +4,9 @@ LOGFILE="$HOME/shell_logs/commands_log.json"
 # ディレクトリが存在しない場合は作成
 mkdir -p "$HOME/shell_logs"
 
+# ローカルIPアドレスを取得
+CLIENT_IP=$(hostname -I | awk '{print $1}')
+
 # ログを記録する関数を定義
 log_command() {
     if [ -z "$CMD_LOGGING" ]; then
@@ -35,8 +38,8 @@ log_command() {
         fi
 
         # JSON 形式でログファイルに追記
-        jq -n --arg timestamp "$TIMESTAMP" --arg command "$COMMAND" --arg output "$OUTPUT" --arg status "$EXIT_STATUS" \
-            '{timestamp: $timestamp, command: $command, output: $output, exit_status: $status}' >> "$LOGFILE"
+        jq -n --arg timestamp "$TIMESTAMP" --arg client_ip "$CLIENT_IP" --arg command "$COMMAND" --arg output "$OUTPUT" --arg status "$EXIT_STATUS" \
+            '{timestamp: $timestamp, client_ip: $client_ip, command: $command, output: $output, exit_status: $status}' >> "$LOGFILE"
 
         unset CMD_LOGGING
         return $EXIT_STATUS
