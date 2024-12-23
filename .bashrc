@@ -34,7 +34,7 @@ log_command() {
             OUTPUT=$(script -q -c "$COMMAND" /dev/null 2>&1)
             EXIT_STATUS=$?
             # コマンドの結果を表示
-            echo "$OUTPUT"
+            # echo "$OUTPUT"
         fi
 
         # JSON 形式でログファイルに追記
