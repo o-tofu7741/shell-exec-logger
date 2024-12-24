@@ -51,7 +51,7 @@ log_command() {
         fi
 
         # JSON 形式でログファイルに追記
-        jq -n --arg timestamp "$TIMESTAMP" --arg client_ip "$CLIENT_IP" --arg command "$COMMAND" --arg output "$OUTPUT" \
+        jq -n -c --arg timestamp "$TIMESTAMP" --arg client_ip "$CLIENT_IP" --arg command "$COMMAND" --arg output "$OUTPUT" \
             '{timestamp: $timestamp, client_ip: $client_ip, command: $command, output: $output}' >> "$LOGFILE"
 
         unset CMD_LOGGING
