@@ -11,7 +11,7 @@ CLIENT_IP=$(hostname -I | awk '{print $1}')
 LOGGING_ENABLED=1
 
 # 不要なaliasを削除
-if [ "$LOGGING_ENABLED" -eq 0 ]; then
+if [ "$LOGGING_ENABLED" -eq 1 ]; then
     unalias ll 2>/dev/null
     unalias la 2>/dev/null
     unalias l 2>/dev/null
@@ -45,7 +45,7 @@ log_command() {
             OUTPUT=""
         else
             # コマンドを実行し、出力を取得
-            OUTPUT=$(eval "$COMMAND" 2>&1)
+            OUTPUT=$(script -q /dev/stdout -c "$COMMAND" 2>&1)
             # コマンドの結果を表示（必要に応じてコメントアウトを解除）
             # echo "$OUTPUT"
         fi
