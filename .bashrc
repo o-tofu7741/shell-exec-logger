@@ -46,8 +46,6 @@ log_command() {
         else
             # コマンドを実行し、出力を取得
             OUTPUT=$(script -q /dev/stdout -c "$COMMAND" 2>&1)
-            # コマンドの結果を表示（必要に応じてコメントアウトを解除）
-            # echo "$OUTPUT"
         fi
 
         # JSON 形式でログファイルに追記
