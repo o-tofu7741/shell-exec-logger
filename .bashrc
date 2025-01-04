@@ -45,12 +45,16 @@ log_command() {
             OUTPUT=""
         else
             # コマンドを実行し、出力を取得
-            OUTPUT=$(script -q /dev/stdout -c "$COMMAND" 2>&1)
+            OUTPUT=$(script -q -c "$COMMAND" /dev/null 2>&1)
         fi
 
         # JSON 形式でログファイルに追記
-        jq -n -c --arg timestamp "$TIMESTAMP" --arg client_ip "$CLIENT_IP" --arg command "$COMMAND" --arg output "$OUTPUT" \
-            '{timestamp: $timestamp, client_ip: $client_ip, command: $command, output: $output}' >> "$LOGFILE"
+        jq -n -c \
+        --arg timestamp "$TIMESTAMP" \
+        --arg client_ip "$CLIENT_IP" \
+        --arg command "$COMMAND" \
+        --arg output "$OUTPUT" \
+        '{timestamp: $timestamp, client_ip: $client_ip, command: $command, output: $output}' >> "$LOGFILE"
 
         unset CMD_LOGGING
     fi
